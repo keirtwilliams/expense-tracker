@@ -1,10 +1,11 @@
-
+ const expense = [];
       //a form element should use submit in a evenlistener
  const form = document.querySelector('#expense-form');
       form.addEventListener("submit", (event) => {
        
         //prevent reload
     event.preventDefault();     
+    
              //get the elements value
     const name = document.querySelector('#name').value;
     const amount = document.querySelector('#amount').value;
@@ -20,5 +21,25 @@
      //appending the child
     list.appendChild(li);
     console.log(form);
-}); 
+    
+        let newExpense = { 
+        id: Date.now(),
+        name: name,
+        amount: amount,
+        category: category,
+        date: date,
+      }
+     
+         //push a object into the last array
+    expense.push(newExpense);
+    console.log(expense);
+
+     
+        //reset aftert submitting
+     form.reset();
+
+     });
+
+   
+
 
