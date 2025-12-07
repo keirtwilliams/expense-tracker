@@ -1,45 +1,47 @@
- const expense = [];
-      //a form element should use submit in a evenlistener
- const form = document.querySelector('#expense-form');
-      form.addEventListener("submit", (event) => {
-       
-        //prevent reload
-    event.preventDefault();     
-    
-             //get the elements value
-    const name = document.querySelector('#name').value;
-    const amount = document.querySelector('#amount').value;
-    const category = document.querySelector('#items').value;
-    const date = document.querySelector('#date').value;
+let expense = [];
 
-           //creating element
-     let li = document.createElement('li');
-         li.textContent = `${name} - ${amount} - ${category} - ${date}`;
 
-     let list = document.querySelector('#expense-list');
-      
-     //appending the child
-    list.appendChild(li);
-    console.log(form);
-    
-        let newExpense = { 
-        id: Date.now(),
-        name: name,
-        amount: amount,
-        category: category,
-        date: date,
-      }
-     
-         //push a object into the last array
-    expense.push(newExpense);
-    console.log(expense);
+const form = document.querySelector('#expense-form');
+      form.addEventListener("submit", function(event){
+      event.preventDefault();
 
-     
-        //reset aftert submitting
-     form.reset();
+     const name = document.querySelector('#name').value;
+     const amount = document.querySelector('#amount').value;
+     const items = document.querySelector('#items').value;
+     const date = document.querySelector('#date').value;
 
-     });
+     console.log(name);
+     console.log(amount);
+     console.log(items);
+     console.log(date);
 
-   
+     let newExpense = {
+             id: Date.now(),
+             name: name,
+             amount: amount,
+             items: items,
+             date: date
+     };
+
+     expense.push(newExpense);
+     console.log(expense);
+     renderExpenses();
+});
+
+const list = document.querySelector('#expense-list');
+   function renderExpenses(){
+     expense.forEach((expense) => {
+     let div = document.createElement('div');
+     div.className = 'card';
+     div.innerHTML = ` <p>${expense.name}</p>
+                       <p>${expense.amount}</p>    
+                        <p>${expense.items}</p> 
+                        <p>${expense.date}</p>
+                    `;
+       list.append(div);
+         });
+   };
+
+
 
 
