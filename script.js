@@ -28,19 +28,35 @@ const form = document.querySelector('#expense-form');
      renderExpenses();
 });
 
-const list = document.querySelector('#expense-list');
    function renderExpenses(){
+    list.innerHTML = "";
      expense.forEach((expense) => {
      let div = document.createElement('div');
+     div.setAttribute("data-id", expense.id);
      div.className = 'card';
      div.innerHTML = ` <p>${expense.name}</p>
                        <p>${expense.amount}</p>    
                         <p>${expense.items}</p> 
                         <p>${expense.date}</p>
+                        <button class="delete-btn">Delete</button>
                     `;
        list.append(div);
          });
    };
+
+
+     
+const list = document.querySelector('#expense-list');
+    //DELETE 
+    list.addEventListener("click", function(e){
+      if (e.target.classList.contains("delete-btn")){
+         const card = e.target.closest(".card");
+      const id = card.dataset.id;
+
+      expense = expense.filter(item => item.id != id);
+          renderExpenses();
+      } 
+    });
 
 
 
