@@ -10,6 +10,7 @@ const form = document.querySelector('#expense-form');
      const items = document.querySelector('#items').value;
      const date = document.querySelector('#date').value;
      const addbtn = document.querySelector('.add-btn');
+     
      console.log(name);
      console.log(amount);
      console.log(items);
@@ -30,18 +31,18 @@ const form = document.querySelector('#expense-form');
        newExp.items = form.items.value;
        newExp.date = form.date.value;
        addbtn.textContent = "Add Expense";
-       editingID = null;
-       
+       editingID = null;  
         renderExpenses();
      } else {
         expense.push(newExpense);
        renderExpenses();
+       totalExpense();
+    
      }
-
     console.log(expense);  
+    
    form.reset();
 });
-
 
    function renderExpenses(){
     list.innerHTML = "";
@@ -85,8 +86,17 @@ const list = document.querySelector('#expense-list');
          form.date.value = newExp.date;
         editingID = Number(id);
      }
-   })
+   });
 
+  function totalExpense(){
+        const initialValue = 0;
+     const totalAmount = expense.reduce(
+       (acc, currentItem) => acc + Number(currentItem.amount), initialValue, 
+        );
+      const P = document.querySelector("#total-amount");
+      P.textContent = totalAmount
+  }
 
+  
 
 
