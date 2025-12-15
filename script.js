@@ -1,6 +1,7 @@
 let expense = [];
 let editingID = null;
-
+  
+    //inserting data into expense[]
 const form = document.querySelector('#expense-form');
       form.addEventListener("submit", function(event){
       event.preventDefault();
@@ -31,18 +32,27 @@ const form = document.querySelector('#expense-form');
        newExp.items = form.items.value;
        newExp.date = form.date.value;
        addbtn.textContent = "Add Expense";
-       editingID = null;  
-        renderExpenses();
+       editingID = null; 
+
      } else {
+      
         expense.push(newExpense);
        renderExpenses();
        totalExpense();
-    
-     }
-    console.log(expense);  
-    
+         }  
    form.reset();
 });
+
+    function Validation(){
+      let ValidateName = document.querySelector("#name").value;
+     let ValidateAmount = document.querySelector("#amount").value;
+     let ValidateItems = document.querySelector("#items").value;
+    let ValidateDate = document.querySelector("#date").value;
+     
+    if(ValidateName === ""){
+      alert("Please input atleast  8-16 characters");
+    }
+    }
 
    function renderExpenses(){
     list.innerHTML = "";
@@ -62,7 +72,7 @@ const form = document.querySelector('#expense-form');
    };
      
 const list = document.querySelector('#expense-list');
-    //DELETE 
+    
     list.addEventListener("click", function(e){
       if (e.target.classList.contains("delete-btn")){
          const card = e.target.closest(".card");
@@ -72,7 +82,7 @@ const list = document.querySelector('#expense-list');
       } 
     });
 
-    //EDIT
+    //modifying of array
    list.addEventListener("click", function(event){
      if(event.target.classList.contains("edit-btn")){
         const card = event.target.closest(".card");
@@ -87,16 +97,17 @@ const list = document.querySelector('#expense-list');
         editingID = Number(id);
      }
    });
-
+       
+   //expense calculation thru reduce()
   function totalExpense(){
         const initialValue = 0;
      const totalAmount = expense.reduce(
        (acc, currentItem) => acc + Number(currentItem.amount), initialValue, 
         );
       const P = document.querySelector("#total-amount");
-      P.textContent = totalAmount
+      P.textContent = totalAmount;
   }
-
+  
   
 
 
