@@ -1,10 +1,20 @@
 let expense = [];
 let editingID = null;
   
+
+
+
     //inserting data into expense[]
 const form = document.querySelector('#expense-form');
-      form.addEventListener("submit", function(event){
-      event.preventDefault();
+      form.addEventListener("submit", function(eventForm){
+      eventForm.preventDefault();
+
+
+       if(Validation() == false){
+         return form;
+       }  else {
+        renderExpenses();
+       }
 
      const name = document.querySelector('#name').value;
      const amount = document.querySelector('#amount').value;
@@ -24,7 +34,7 @@ const form = document.querySelector('#expense-form');
              items: items,
              date: date
      };
-
+      
      if(editingID != null){
         newExp = expense.find(item => item.id == editingID);
        newExp.name = form.name.value;
@@ -33,27 +43,44 @@ const form = document.querySelector('#expense-form');
        newExp.date = form.date.value;
        addbtn.textContent = "Add Expense";
        editingID = null; 
-
      } else {
-      
-        expense.push(newExpense);
+       expense.push(newExpense);
        renderExpenses();
        totalExpense();
          }  
    form.reset();
 });
 
+   
     function Validation(){
-      let ValidateName = document.querySelector("#name").value;
-     let ValidateAmount = document.querySelector("#amount").value;
-     let ValidateItems = document.querySelector("#items").value;
+    let ValidateName = document.querySelector("#name").value;
+    let ValidateAmount = document.querySelector("#amount").value;
+    let ValidateItems = document.querySelector("#items").value;
     let ValidateDate = document.querySelector("#date").value;
-     
+    
     if(ValidateName === ""){
-      alert("Please input atleast  8-16 characters");
+      alert("Name must be filled out");
+      return false;
+    } else if (ValidateName.length < 3){
+      alert("Atleast put 5-16 characters");
+      return false;
     }
+    if(ValidateAmount === ""){
+      alert("Amount must be filled out");
+      return false;
     }
-
+    if(ValidateItems === ""){
+      alert("Category must be filled out");
+      return false;
+    }
+    if(ValidateDate === ""){
+      alert("Date must be filled out");
+      return false
+    } 
+      return true;
+    }
+    
+    
    function renderExpenses(){
     list.innerHTML = "";
      expense.forEach((expense) => {
