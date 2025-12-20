@@ -1,8 +1,6 @@
 let expense = [];
 let editingID = null;
-  
-
-
+loadExpensesFromStorage();
 
     //inserting data into expense[]
 const form = document.querySelector('#expense-form');
@@ -22,11 +20,6 @@ const form = document.querySelector('#expense-form');
      const date = document.querySelector('#date').value;
      const addbtn = document.querySelector('.add-btn');
      
-     console.log(name);
-     console.log(amount);
-     console.log(items);
-     console.log(date);
-
      let newExpense = {
              id: Date.now(),
              name: name,
@@ -46,6 +39,7 @@ const form = document.querySelector('#expense-form');
      } else {
        expense.push(newExpense);
        renderExpenses();
+       saveExpensesToStorage();
        totalExpense();
          }  
    form.reset();
@@ -88,7 +82,7 @@ const form = document.querySelector('#expense-form');
      div.setAttribute("data-id", expense.id);
      div.className = 'card';
      div.innerHTML = ` <p>${expense.name}</p>
-                       <p>${expense.amount}</p>    
+                       <p>₱${expense.amount}</p>    
                         <p>${expense.items}</p> 
                         <p>${expense.date}</p>
                         <button class="edit-btn">Edit</button>
@@ -106,6 +100,7 @@ const list = document.querySelector('#expense-list');
       const id = card.dataset.id;
       expense = expense.filter(item => item.id != id);
           renderExpenses(); 
+          saveExpensesToStorage();
       } 
     });
 
@@ -122,6 +117,7 @@ const list = document.querySelector('#expense-list');
          form.items.value =  newExp.items;
          form.date.value = newExp.date;
         editingID = Number(id);
+        saveExpensesToStorage();
      }
    });
        
@@ -135,6 +131,15 @@ const list = document.querySelector('#expense-list');
       P.textContent = totalAmount;
   }
   
-  
+  function loadExpensesFromStorage(){    
+     let setExpense = localStorage.getItem("expense");
+   if(setExpense){
+     expense = JSON.parse(setExpense);
+      }
+      }
 
+      
+ function saveExpensesToStorage() {
+  localStorage.setItem("expenses", JSON.stringify(expense));
+}
 
