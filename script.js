@@ -74,7 +74,7 @@ const form = document.querySelector('#expense-form');
       return true;
     }
     
-    
+
    function renderExpenses(){
     list.innerHTML = "";
      expense.forEach((expense) => {
@@ -138,8 +138,23 @@ const list = document.querySelector('#expense-list');
       }
       }
 
-      
  function saveExpensesToStorage() {
   localStorage.setItem("expenses", JSON.stringify(expense));
 }
 
+
+//filtering
+
+function getFilteredExpense(){
+  return expense.filter(exp => {
+
+    if(selectCategory != "All" && exp.category !== selectCategory){
+      return false;
+    }
+
+    if(searchText != "" && !exp.name.toLowerCase().includes(searchText.toLowerCase())){
+      return false;
+    }
+    return true;
+  });
+}
