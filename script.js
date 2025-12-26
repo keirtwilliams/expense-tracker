@@ -8,18 +8,16 @@ const form = document.querySelector('#expense-form');
       eventForm.preventDefault();
 
 
-       if(Validation() == false){
-         return form;
-       }  else {
-        renderExpenses();
-       }
-
      const name = document.querySelector('#name').value;
      const amount = document.querySelector('#amount').value;
      const items = document.querySelector('#items').value;
      const date = document.querySelector('#date').value;
      const addbtn = document.querySelector('.add-btn');
-     
+
+      const isValid = Validation(name,amount,items,date);
+        if(!isValid){
+          return;
+        } 
      let newExpense = {
              id: Date.now(),
              name: name,
@@ -29,7 +27,7 @@ const form = document.querySelector('#expense-form');
      };
       
      if(editingID != null){
-        newExp = expense.find(item => item.id == editingID);
+       const newExp = expense.find(item => item.id == editingID);
        newExp.name = form.name.value;
        newExp.amount = form.amount.value;
        newExp.items = form.items.value;
@@ -37,37 +35,30 @@ const form = document.querySelector('#expense-form');
        addbtn.textContent = "Add Expense";
        editingID = null; 
      } else {
-       expense.push(newExpense);
-       renderExpenses();
-       saveExpensesToStorage();
-       totalExpense();
+          expense.push(newExpense);
          }  
+   CommitState();
    form.reset();
 });
 
-   
-    function Validation(){
-    let ValidateName = document.querySelector("#name").value;
-    let ValidateAmount = document.querySelector("#amount").value;
-    let ValidateItems = document.querySelector("#items").value;
-    let ValidateDate = document.querySelector("#date").value;
-    
-    if(ValidateName === ""){
+
+    function Validation(name, amount, items, date){
+    if(name === ""){
       alert("Name must be filled out");
       return false;
-    } else if (ValidateName.length < 3){
-      alert("Atleast put 5-16 characters");
+    } else if (name.length < 8){
+      alert("Atleast put 8-16 characters");
       return false;
     }
-    if(ValidateAmount === ""){
+    if(amount === ""){
       alert("Amount must be filled out");
       return false;
     }
-    if(ValidateItems === ""){
+    if(items === ""){
       alert("Category must be filled out");
       return false;
     }
-    if(ValidateDate === ""){
+    if(date === ""){
       alert("Date must be filled out");
       return false
     } 
@@ -99,8 +90,7 @@ const list = document.querySelector('#expense-list');
          const card = e.target.closest(".card");
       const id = card.dataset.id;
       expense = expense.filter(item => item.id != id);
-          renderExpenses(); 
-          saveExpensesToStorage();
+        CommitState();
       } 
     });
 
@@ -109,7 +99,7 @@ const list = document.querySelector('#expense-list');
      if(event.target.classList.contains("edit-btn")){
         const card = event.target.closest(".card");
         const id = card.dataset.id;
-        newExp = expense.find(item => item.id == id);
+       const newExp = expense.find(item => item.id == id);
          const addbtn = document.querySelector('.add-btn');
           addbtn.textContent = "Update Expense";
          form.name.value = newExp.name;
@@ -117,9 +107,10 @@ const list = document.querySelector('#expense-list');
          form.items.value =  newExp.items;
          form.date.value = newExp.date;
         editingID = Number(id);
-        saveExpensesToStorage();
      }
-   });
+     CommitState();
+   }); 
+
        
    //expense calculation thru reduce()
   function totalExpense(){
@@ -131,6 +122,7 @@ const list = document.querySelector('#expense-list');
       P.textContent = totalAmount;
   }
   
+
   function loadExpensesFromStorage(){    
      let setExpense = localStorage.getItem("expense");
    if(setExpense){
@@ -139,16 +131,15 @@ const list = document.querySelector('#expense-list');
       }
 
  function saveExpensesToStorage() {
-  localStorage.setItem("expenses", JSON.stringify(expense));
+  localStorage.setItem("expense", JSON.stringify(expense));
 }
 
 
 //filtering
-
 function getFilteredExpense(){
   return expense.filter(exp => {
-
-    if(selectCategory != "All" && exp.category !== selectCategory){
+      
+    if(selectCategory != "All" && exp.items !== selectCategory){
       return false;
     }
 
@@ -157,4 +148,10 @@ function getFilteredExpense(){
     }
     return true;
   });
+}
+
+function CommitState(){
+   renderExpenses();
+  saveExpensesToStorage();
+  totalExpense();
 }
