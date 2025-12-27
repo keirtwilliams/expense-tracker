@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-      <h1>Expense Tracker</h1>
-        <form id="expense-form">
+  
+      <h1 class="header">Expense Tracker</h1>
+       <div class="expense-container">
+        <form id="expense-form" class="expense-form">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="e.g Grocery" />
             <label for="amount">Amount:</label>
@@ -24,18 +26,23 @@
             </select>
             <label for="date">Date:</label>
              <input type="date" id="date" name="date">
-            <button class="add-btn" type="submit">Add Expense</button>
+            <button class="add-btn" type="submit">Add Expense</button>  
         </form>
+               </div>
 
-        <div id="expense-list" class="cards-grid">
-        </div>  
-
-        <div class="container">
+                <div class="container">
             <div id="expense-box">
                 <h1>Total Expense</h1>
                 <p id="total-amount"></p>
             </div>
         </div>
+                     <div id="expense-list" class="cards-grid">
+        </div>
+        
+       
+
+
+    
 
     <script src="script.js"></script>
 </body>

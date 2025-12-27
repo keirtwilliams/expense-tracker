@@ -7,7 +7,6 @@ const form = document.querySelector('#expense-form');
       form.addEventListener("submit", function(eventForm){
       eventForm.preventDefault();
 
-
      const name = document.querySelector('#name').value;
      const amount = document.querySelector('#amount').value;
      const items = document.querySelector('#items').value;
@@ -41,15 +40,13 @@ const form = document.querySelector('#expense-form');
    form.reset();
 });
 
-
+      //Basic Validation
     function Validation(name, amount, items, date){
     if(name === ""){
       alert("Name must be filled out");
       return false;
-    } else if (name.length < 8){
-      alert("Atleast put 8-16 characters");
-      return false;
-    }
+    } 
+
     if(amount === ""){
       alert("Amount must be filled out");
       return false;
@@ -65,26 +62,28 @@ const form = document.querySelector('#expense-form');
       return true;
     }
     
-
+      //render data
    function renderExpenses(){
     list.innerHTML = "";
      expense.forEach((expense) => {
      let div = document.createElement('div');
      div.setAttribute("data-id", expense.id);
      div.className = 'card';
-     div.innerHTML = ` <p>${expense.name}</p>
-                       <p>₱${expense.amount}</p>    
+     div.innerHTML = ` <h1>${expense.name}</h1>
+                       <h3>₱${expense.amount}</h3>    
                         <p>${expense.items}</p> 
                         <p>${expense.date}</p>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
+                       <div class="actions">
+                            <button class="edit-btn">Edit</button>
+                           <button class="delete-btn">Delete</button>
+                        </div>
                     `;
        list.append(div);
          });
    };
-     
+      
+       //DELTE
 const list = document.querySelector('#expense-list');
-    
     list.addEventListener("click", function(e){
       if (e.target.classList.contains("delete-btn")){
          const card = e.target.closest(".card");
@@ -122,7 +121,7 @@ const list = document.querySelector('#expense-list');
       P.textContent = totalAmount;
   }
   
-
+        
   function loadExpensesFromStorage(){    
      let setExpense = localStorage.getItem("expense");
    if(setExpense){
